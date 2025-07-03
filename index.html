@@ -47,6 +47,26 @@
             opacity: 0.85;
             font-size: 1.1rem;
             font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .background-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .background-link:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
         }
 
         .content {
@@ -240,13 +260,16 @@
     <div class="container">
         <div class="header">
             <h1>Alzheimer's Disease Risk Calculator</h1>
-            <p>Based on Lumipulse G pTau 217/β-Amyloid 1-42 Plasma Ratio Test</p>
+            <p>Based on pTau 217/β-Amyloid 1-42 Plasma Ratio Test</p>
+            <a href="background.html" target="_blank" class="background-link">
+                View Background Info & Data Visualizations
+            </a>
         </div>
 
         <div class="content">
             <div class="warning">
                 <h3>Important Medical Disclaimer</h3>
-                <p>This calculator is for educational purposes only and should not replace professional medical advice. The Lumipulse G test is intended for use in specialized care settings for patients aged 50+ with cognitive decline symptoms. Always consult with a healthcare provider for proper diagnosis and interpretation.</p>
+                <p>This calculator is for educational purposes only and should not replace professional medical advice. The plasma ratio test is intended for use in specialized care settings for patients aged 50+ with cognitive decline symptoms. Always consult with a healthcare provider for proper diagnosis and interpretation.</p>
             </div>
 
             <form id="riskForm">
@@ -294,7 +317,7 @@
                 <div class="form-section">
                     <h3>Test Results</h3>
                     <div class="form-group">
-                        <label for="test-result">Lumipulse G pTau 217/β-Amyloid 1-42 Plasma Ratio Result:</label>
+                        <label for="test-result">pTau 217/β-Amyloid 1-42 Plasma Ratio Result:</label>
                         <select id="test-result" required>
                             <option value="">Select</option>
                             <option value="negative">Negative (≤ 0.00370)</option>
