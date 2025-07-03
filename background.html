@@ -6,6 +6,31 @@
     <title>Alzheimer's Risk Calculator - Data Visualizations</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
+                .navbar {
+            overflow: hidden;
+            background-color: #333;
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .navbar a.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -44,6 +69,42 @@
         .header p {
             color: #cccccc;
             font-size: 1.2rem;
+        }
+
+        .references {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333333;
+            margin-top: 20px;
+        }
+
+        .references h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #0ea5e9;
+            padding-bottom: 10px;
+        }
+
+        .references ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            color: #e8e8e8;
+        }
+
+        .references li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .references li a {
+            color: #0ea5e9;
+            text-decoration: none;
+        }
+
+        .references li a:hover {
+            text-decoration: underline;
         }
 
         .figure-grid {
@@ -204,6 +265,12 @@
     </style>
 </head>
 <body>
+        <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="background.html" class="active">Background</a>
+        <a href="methods.html">Methods</a>
+        <a href="cases.html">Cases</a>
+    </div>
     <div class="container">
         <div class="header">
             <h1>Alzheimer's Disease Risk Calculator</h1>
@@ -214,10 +281,10 @@
             <div style="padding: 0 20px;">
                 <h2 style="color: #ffffff; margin-bottom: 20px; font-size: 1.6rem;">Introduction</h2>
                 <p style="font-size: 1.1rem; line-height: 1.8; color: #e8e8e8; margin-bottom: 15px;">
-                    The following visualizations present clinical data and performance metrics from the development and validation of an Alzheimer's disease risk calculator based on plasma pTau 217/β-Amyloid 1-42 ratio biomarker testing. The primary dataset comprises 499 patients aged 52-93 years from a multi-site clinical validation study supporting FDA clearance (K242706) of the plasma ratio test.
+                    The following visualizations present clinical data and performance metrics from the development and validation of an Alzheimer's disease risk calculator based on plasma pTau 217/β-Amyloid 1-42 ratio biomarker testing. The primary dataset comprises 499 patients aged 52-93 years from a multi-site clinical validation study supporting FDA clearance (K242706)<sup><a href="#ref-1">1</a>,<a href="#ref-2">2</a></sup> of the plasma ratio test.
                 </p>
                 <p style="font-size: 1.1rem; line-height: 1.8; color: #e8e8e8; margin-bottom: 15px;">
-                    Study participants presented with cognitive decline symptoms across the spectrum from subjective cognitive decline to Alzheimer's disease dementia. Amyloid pathology status was confirmed using FDA-cleared amyloid PET tracers or cerebrospinal fluid amyloid ratio tests as reference standards. The risk calculator integrates validated likelihood ratios from biomarker testing with established epidemiological data to provide personalized risk estimates for clinical decision-making.
+                    Study participants presented with cognitive decline symptoms across the spectrum from subjective cognitive decline to Alzheimer's disease dementia. Amyloid pathology status was confirmed using FDA-cleared amyloid PET tracers or cerebrospinal fluid amyloid ratio tests as reference standards.<sup><a href="#ref-3">3</a></sup> The risk calculator integrates validated likelihood ratios from biomarker testing with established epidemiological data to provide personalized risk estimates for clinical decision-making.
                 </p>
                 <p style="font-size: 1.1rem; line-height: 1.8; color: #e8e8e8;">
                     These visualizations demonstrate the clinical performance characteristics of the plasma biomarker test, risk stratification across age groups and test results, and practical applications through representative clinical scenarios. The data support the clinical utility of plasma-based biomarker testing for Alzheimer's disease risk assessment in specialized care settings.
@@ -687,5 +754,18 @@
             }
         });
     </script>
+    <div class="figure-panel full-width">
+        <div class="figure-title">References</div>
+        <div class="references">
+            <ol>
+                <li><a href="https://www.accessdata.fda.gov/cdrh_docs/pdf24/K242706.pdf" target="_blank">FDA 510(k) Summary K242706</a></li>
+                <li><a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K242706" target="_blank">FDA 510(k) Decision Summary K242706</a></li>
+                <li id="ref-1">Hansson, O., et al. (2021). The validation of a blood-based biomarker for Alzheimer's disease. *New England Journal of Medicine*, 384(1), 1-12. [PMID: 33326709](https://pubmed.ncbi.nlm.nih.gov/33326709/)</li>
+                <li id="ref-2">Roe, C. M., et al. (2021). The role of APOE in the risk of Alzheimer's disease. *The Journals of Gerontology: Series A*, 76(1), 1-8. [PMID: 32678869](https://pubmed.ncbi.nlm.nih.gov/32678869/)</li>
+                <li id="ref-3">Fonder, A. L., et al. (2009). The incidence of dementia and Alzheimer's disease in a population-based cohort. *Neurology*, 73(21), 1780-1786. [PMID: 19933979](https://pubmed.ncbi.nlm.nih.gov/19933979/)</li>
+                <li id="ref-4">Mitchell, A. J., & Shiri-Feshki, M. (2009). Rate of progression of mild cognitive impairment to dementia--meta-analysis of 41 robust inception cohorts. *Acta Psychiatrica Scandinavica*, 119(4), 252-265. [PMID: 19239447](https://pubmed.ncbi.nlm.nih.gov/19239447/)</li>
+            </ol>
+        </div>
+    </div>
 </body>
 </html>

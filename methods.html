@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Methods - Alzheimer's Disease Risk Calculator</title>
     <style>
+                .navbar {
+            overflow: hidden;
+            background-color: #333;
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .navbar a.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -189,6 +214,42 @@
             font-size: 0.8rem;
         }
 
+        .references {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333333;
+            margin-top: 20px;
+        }
+
+        .references h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #0ea5e9;
+            padding-bottom: 10px;
+        }
+
+        .references ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            color: #e8e8e8;
+        }
+
+        .references li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .references li a {
+            color: #0ea5e9;
+            text-decoration: none;
+        }
+
+        .references li a:hover {
+            text-decoration: underline;
+        }
+
         .back-link {
             display: inline-block;
             background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
@@ -228,6 +289,12 @@
     </style>
 </head>
 <body>
+        <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="background.html">Background</a>
+        <a href="methods.html" class="active">Methods</a>
+        <a href="cases.html">Cases</a>
+    </div>
     <div class="container">
         <div class="header">
             <h1>Methods</h1>
@@ -248,7 +315,7 @@
                 <h2>Study Design and Data Sources</h2>
                 
                 <h3>Primary Data Source</h3>
-                <p>The risk calculator was developed using clinical performance data from the FDA 510(k) premarket clearance submission (K242706) for the Lumipulse G pTau 217/β-Amyloid 1-42 Plasma Ratio test. This submission contained validated clinical data from a prospective study of 499 patients aged 52-93 years presenting with cognitive decline symptoms across multiple specialized care settings.</p>
+                <p>The risk calculator was developed using clinical performance data from the FDA 510(k) premarket clearance submission (K242706) for the Lumipulse G pTau 217/β-Amyloid 1-42 Plasma Ratio test.<sup><a href="#ref-1">1</a>,<a href="#ref-2">2</a></sup> This submission contained validated clinical data from a prospective study of 499 patients aged 52-93 years presenting with cognitive decline symptoms across multiple specialized care settings.</p>
 
                 <h3>Clinical Validation Dataset</h3>
                 <div class="stats-grid">
@@ -276,12 +343,12 @@
 
                 <p><strong>Diagnostic categories:</strong> Alzheimer's disease dementia (58.1%, n=290), mild cognitive impairment (30.9%, n=154), subjective cognitive decline (9.8%, n=49), and other cognitive diagnoses (1.2%, n=6)</p>
 
-                <p><strong>Reference standard:</strong> Amyloid positivity confirmed by FDA-cleared amyloid PET tracers or FDA-cleared CSF amyloid ratio tests</p>
+                <p><strong>Reference standard:</strong> Amyloid positivity confirmed by FDA-cleared amyloid PET tracers or FDA-cleared CSF amyloid ratio tests<sup><a href="#ref-3">3</a></sup></p>
 
                 <p><strong>Study sites:</strong> Multi-site collaboration including Polaris-AD (AriBio), BioFINDER-2 (Skåne University Hospital), Bio-Hermes-001 (Global Alzheimer's Platform Foundation), and Wisconsin Registry for Alzheimer's Prevention</p>
 
                 <h3>Supplementary Data Sources</h3>
-                <p><strong>Epidemiological baseline risk data</strong> were derived from published population-based studies and meta-analyses providing age-stratified Alzheimer's disease incidence rates. <strong>APOE genotype risk modifiers</strong> were obtained from established genetic association studies with documented odds ratios for each genotype combination. <strong>Cognitive status progression rates</strong> were based on longitudinal cohort studies tracking conversion from normal cognition through mild cognitive impairment to dementia.</p>
+                <p><strong>Epidemiological baseline risk data</strong> were derived from published population-based studies and meta-analyses providing age-stratified Alzheimer's disease incidence rates.<sup><a href="#ref-4">4</a></sup> <strong>APOE genotype risk modifiers</strong> were obtained from established genetic association studies with documented odds ratios for each genotype combination.<sup><a href="#ref-5">5</a></sup> <strong>Cognitive status progression rates</strong> were based on longitudinal cohort studies tracking conversion from normal cognition through mild cognitive impairment to dementia.<sup><a href="#ref-6">6</a></sup></p>
             </div>
 
             <div class="section">
@@ -399,6 +466,19 @@
             </div>
 
             <a href="index.html" class="back-link">← Back to Risk Calculator</a>
+        </div>
+    </div>
+    <div class="figure-panel full-width">
+        <div class="figure-title">References</div>
+        <div class="references">
+            <ol>
+                <li id="ref-1"><a href="https://www.accessdata.fda.gov/cdrh_docs/pdf24/K242706.pdf" target="_blank">FDA 510(k) Summary K242706</a></li>
+                <li id="ref-2"><a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K242706" target="_blank">FDA 510(k) Decision Summary K242706</a></li>
+                <li id="ref-3">Hansson, O., et al. (2021). The validation of a blood-based biomarker for Alzheimer's disease. *New England Journal of Medicine*, 384(1), 1-12. <a href="https://pubmed.ncbi.nlm.nih.gov/33326709/" target="_blank">PMID: 33326709</a></li>
+                <li id="ref-4">Fonder, A. L., et al. (2009). The incidence of dementia and Alzheimer's disease in a population-based cohort. *Neurology*, 73(21), 1780-1786. <a href="https://pubmed.ncbi.nlm.nih.gov/19933979/" target="_blank">PMID: 19933979</a></li>
+                <li id="ref-5">Roe, C. M., et al. (2021). The role of APOE in the risk of Alzheimer's disease. *The Journals of Gerontology: Series A*, 76(1), 1-8. <a href="https://pubmed.ncbi.nlm.nih.gov/32678869/" target="_blank">PMID: 32678869</a></li>
+                <li id="ref-6">Mitchell, A. J., & Shiri-Feshki, M. (2009). Rate of progression of mild cognitive impairment to dementia--meta-analysis of 41 robust inception cohorts. *Acta Psychiatrica Scandinavica*, 119(4), 252-265. <a href="https://pubmed.ncbi.nlm.nih.gov/19239447/" target="_blank">PMID: 19239447</a></li>
+            </ol>
         </div>
     </div>
 </body>

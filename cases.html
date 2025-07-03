@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Illustrative Cases - Alzheimer's Disease Risk Calculator</title>
     <style>
+                .navbar {
+            overflow: hidden;
+            background-color: #333;
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .navbar a.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -347,6 +372,12 @@
     </style>
 </head>
 <body>
+        <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="background.html">Background</a>
+        <a href="methods.html">Methods</a>
+        <a href="cases.html" class="active">Cases</a>
+    </div>
     <div class="container">
         <div class="header">
             <h1>Illustrative Cases</h1>
@@ -630,7 +661,6 @@
                 </div>
             </div>
 
-            <a href="results.html" class="back-link">← Back to Results</a>
             <a href="index.html" class="back-link">← Back to Risk Calculator</a>
         </div>
     </div>
