@@ -236,6 +236,15 @@
 
         <div class="content">
             <div class="section">
+                <h2>Introduction</h2>
+                <p>The following methods describe the development and validation of an Alzheimer's disease risk calculator based on plasma pTau 217/β-Amyloid 1-42 ratio biomarker testing. The primary dataset comprises 499 patients aged 52-93 years from a multi-site clinical validation study supporting FDA clearance (K242706) of the plasma ratio test.</p>
+                
+                <p>Study participants presented with cognitive decline symptoms across the spectrum from subjective cognitive decline to Alzheimer's disease dementia. Amyloid pathology status was confirmed using FDA-cleared amyloid PET tracers or cerebrospinal fluid amyloid ratio tests as reference standards. The risk calculator integrates validated likelihood ratios from biomarker testing with established epidemiological data to provide personalized risk estimates for clinical decision-making.</p>
+                
+                <p>The development process demonstrates the clinical performance characteristics of the plasma biomarker test, risk stratification across age groups and test results, and practical applications through representative clinical scenarios. The data support the clinical utility of plasma-based biomarker testing for Alzheimer's disease risk assessment in specialized care settings.</p>
+            </div>
+
+            <div class="section">
                 <h2>Study Design and Data Sources</h2>
                 
                 <h3>Primary Data Source</h3>
