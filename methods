@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methods - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8e8e8;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid #333333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #111111 0%, #222222 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #333333;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 40px;
+            background: #1a1a1a;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0ea5e9;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .section h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            font-weight: 600;
+        }
+
+        .section h4 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .section p {
+            color: #e8e8e8;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section li {
+            color: #e8e8e8;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #0ea5e9;
+            margin-bottom: 12px;
+        }
+
+        .formula-box {
+            background: #222222;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: #333333;
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #404040;
+            color: #e8e8e8;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            color: #0ea5e9;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .stat-description {
+            color: #cccccc;
+            font-size: 0.8rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Methods</h1>
+            <p>Alzheimer's Disease Risk Calculator Development</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Study Design and Data Sources</h2>
+                
+                <h3>Primary Data Source</h3>
+                <p>The risk calculator was developed using clinical performance data from the FDA 510(k) premarket clearance submission (K242706) for the Lumipulse G pTau 217/β-Amyloid 1-42 Plasma Ratio test. This submission contained validated clinical data from a prospective study of 499 patients aged 52-93 years presenting with cognitive decline symptoms across multiple specialized care settings.</p>
+
+                <h3>Clinical Validation Dataset</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Participants</h4>
+                        <div class="stat-value">499</div>
+                        <div class="stat-description">patients</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Age Range</h4>
+                        <div class="stat-value">52-93</div>
+                        <div class="stat-description">years (mean 72)</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Male Participants</h4>
+                        <div class="stat-value">48.1%</div>
+                        <div class="stat-description">(n=240)</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Amyloid Positive</h4>
+                        <div class="stat-value">51.1%</div>
+                        <div class="stat-description">(n=255)</div>
+                    </div>
+                </div>
+
+                <p><strong>Diagnostic categories:</strong> Alzheimer's disease dementia (58.1%, n=290), mild cognitive impairment (30.9%, n=154), subjective cognitive decline (9.8%, n=49), and other cognitive diagnoses (1.2%, n=6)</p>
+
+                <p><strong>Reference standard:</strong> Amyloid positivity confirmed by FDA-cleared amyloid PET tracers or FDA-cleared CSF amyloid ratio tests</p>
+
+                <p><strong>Study sites:</strong> Multi-site collaboration including Polaris-AD (AriBio), BioFINDER-2 (Skåne University Hospital), Bio-Hermes-001 (Global Alzheimer's Platform Foundation), and Wisconsin Registry for Alzheimer's Prevention</p>
+
+                <h3>Supplementary Data Sources</h3>
+                <p><strong>Epidemiological baseline risk data</strong> were derived from published population-based studies and meta-analyses providing age-stratified Alzheimer's disease incidence rates. <strong>APOE genotype risk modifiers</strong> were obtained from established genetic association studies with documented odds ratios for each genotype combination. <strong>Cognitive status progression rates</strong> were based on longitudinal cohort studies tracking conversion from normal cognition through mild cognitive impairment to dementia.</p>
+            </div>
+
+            <div class="section">
+                <h2>Risk Model Development</h2>
+
+                <h3>Biomarker Performance Metrics</h3>
+                <p>Clinical cutoffs and likelihood ratios were established from the FDA validation study:</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Test Result</th>
+                            <th>Ratio Range</th>
+                            <th>Likelihood Ratio</th>
+                            <th>95% CI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Negative</strong></td>
+                            <td>≤0.00370</td>
+                            <td>0.03</td>
+                            <td>0.01-0.06</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Indeterminate</strong></td>
+                            <td>0.00371-0.00737</td>
+                            <td>0.96</td>
+                            <td>0.67-1.36</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Positive</strong></td>
+                            <td>≥0.00738</td>
+                            <td>10.68</td>
+                            <td>6.90-16.79</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Mathematical Framework</h3>
+                <p>The risk calculation employed a multiplicative model combining baseline age-specific risk with validated modifiers:</p>
+
+                <div class="formula-box">
+                    <strong>Modified Risk = Base Risk × LR<sub>biomarker</sub> × RF<sub>APOE</sub> × RF<sub>cognitive</sub></strong>
+                </div>
+
+                <p>Where:</p>
+                <ul>
+                    <li><strong>Base Risk:</strong> Age-stratified annual incidence rates per 1,000 person-years</li>
+                    <li><strong>LR<sub>biomarker</sub>:</strong> Likelihood ratio based on plasma ratio test result</li>
+                    <li><strong>RF<sub>APOE</sub>:</strong> Risk factor multiplier for APOE genotype (range: 0.6-10.0)</li>
+                    <li><strong>RF<sub>cognitive</sub>:</strong> Risk factor multiplier for cognitive status (SCD: 1.0, MCI: 3.0, dementia: 8.0)</li>
+                </ul>
+
+                <h3>Risk Stratification</h3>
+                <div class="highlight-box">
+                    <h4>Risk Categories</h4>
+                    <p><strong>Annual risk</strong> represented the probability of developing Alzheimer's disease within 12 months. <strong>Ten-year cumulative risk</strong> was calculated using the formula: 1 - (1 - annual_risk)^10, with a maximum ceiling of 100%.</p>
+                    <ul>
+                        <li><strong>Low risk:</strong> &lt;5%</li>
+                        <li><strong>Medium risk:</strong> 5-15%</li>
+                        <li><strong>High risk:</strong> &gt;15%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Application Development</h2>
+
+                <h3>Technical Architecture</h3>
+                <p>The risk calculator was implemented as a client-side web application using HTML5, CSS3, and JavaScript (ES6+). The application employed a responsive design framework ensuring compatibility across desktop, tablet, and mobile devices.</p>
+
+                <h3>User Interface Design</h3>
+                <p>The interface featured a professional dark theme optimized for clinical environments, incorporating:</p>
+                <ul>
+                    <li><strong>Form validation:</strong> Real-time input checking with error messaging</li>
+                    <li><strong>Progressive disclosure:</strong> Step-by-step data entry with clear section organization</li>
+                    <li><strong>Risk visualization:</strong> Color-coded percentage displays with contextual interpretation</li>
+                    <li><strong>Clinical guidance:</strong> Automated recommendation generation based on risk level</li>
+                </ul>
+
+                <h3>Data Security and Privacy</h3>
+                <p>The application operated entirely client-side with no data transmission, storage, or collection, ensuring complete patient privacy and HIPAA compliance.</p>
+            </div>
+
+            <div class="section">
+                <h2>Validation and Quality Assurance</h2>
+
+                <h3>Clinical Accuracy Verification</h3>
+                <p>All likelihood ratios and clinical cutoffs were cross-referenced against the original FDA submission data. Risk calculations were validated against manual computations using the same input parameters across multiple test scenarios.</p>
+
+                <h3>User Experience Testing</h3>
+                <p>The application underwent iterative testing for:</p>
+                <ul>
+                    <li><strong>Usability:</strong> Navigation flow and form completion efficiency</li>
+                    <li><strong>Accuracy:</strong> Calculation verification across edge cases</li>
+                    <li><strong>Accessibility:</strong> Screen reader compatibility and high contrast compliance</li>
+                    <li><strong>Performance:</strong> Load times and responsiveness across devices</li>
+                </ul>
+
+                <h3>Clinical Review</h3>
+                <p>The application content, disclaimers, and recommendations were reviewed for clinical appropriateness and alignment with standard neurological practice guidelines.</p>
+            </div>
+
+            <div class="section">
+                <h2>Statistical Analysis</h2>
+                <p>Risk model performance was evaluated using the original validation cohort data:</p>
+                <ul>
+                    <li><strong>Sensitivity and specificity</strong> calculations for each risk threshold</li>
+                    <li><strong>Positive and negative predictive values</strong> across different prevalence scenarios</li>
+                    <li><strong>Area under the receiver operating characteristic curve</strong> for risk discrimination</li>
+                    <li><strong>Calibration assessment</strong> comparing predicted versus observed risk in subgroups</li>
+                </ul>
+                <p>All statistical analyses were performed using standard epidemiological methods with 95% confidence intervals reported where applicable.</p>
+            </div>
+
+            <a href="index.html" class="back-link">← Back to Risk Calculator</a>
+        </div>
+    </div>
+</body>
+</html>
