@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustrative Cases - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8e8e8;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid #333333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #111111 0%, #222222 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #333333;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 40px;
+            background: #1a1a1a;
+        }
+
+        .intro-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #222222;
+            border: 1px solid #333333;
+            border-radius: 8px;
+        }
+
+        .intro-section h2 {
+            color: #ffffff;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0ea5e9;
+            padding-bottom: 12px;
+        }
+
+        .intro-section p {
+            color: #e8e8e8;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .case-card {
+            background: #222222;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .case-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #404040;
+        }
+
+        .case-number {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .case-title {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .case-subtitle {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .patient-info {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .patient-info h4 {
+            color: #0ea5e9;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #333333;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .info-label {
+            color: #cccccc;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .test-result {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-result h4 {
+            color: #0ea5e9;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .test-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .test-interpretation {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .negative-result {
+            color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .indeterminate-result {
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .positive-result {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .risk-results {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .risk-results h4 {
+            color: #0ea5e9;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .risk-item {
+            background: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .risk-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .risk-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .risk-comparison {
+            color: #cccccc;
+            font-size: 0.8rem;
+        }
+
+        .clinical-interpretation {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .clinical-interpretation h4 {
+            color: #0ea5e9;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .clinical-interpretation p {
+            color: #e8e8e8;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .recommendation {
+            background: #2a2520;
+            border: 1px solid #5d4e37;
+            border-left: 4px solid #f4d03f;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .recommendation h5 {
+            color: #f4d03f;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .recommendation p {
+            color: #e8e8e8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            margin-right: 15px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid, .risk-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Illustrative Cases</h1>
+            <p>Clinical Applications of the Alzheimer's Disease Risk Calculator</p>
+        </div>
+
+        <div class="content">
+            <div class="intro-section">
+                <h2>Clinical Case Studies</h2>
+                <p>The following four cases demonstrate the practical application of the Alzheimer's disease risk calculator across diverse clinical scenarios. Each case illustrates how plasma pTau 217/β-Amyloid 1-42 ratio test results, combined with patient demographics and clinical factors, provide actionable risk assessments for personalized care planning.</p>
+                <p>These examples highlight the tool's utility in differentiating risk levels, guiding clinical decision-making, and facilitating evidence-based discussions with patients and families about diagnostic workup, monitoring strategies, and intervention planning.</p>
+            </div>
+
+            <div class="cases-grid">
+                <!-- Case 1: Low Risk -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">1</div>
+                        <div>
+                            <div class="case-title">Early Cognitive Concerns</div>
+                            <div class="case-subtitle">Low Risk Scenario</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>Patient Demographics</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">68 years</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Female</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cognitive Status</div>
+                                <div class="info-value">SCD</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">APOE Status</div>
+                                <div class="info-value">E3/E3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Vignette</h4>
+                        <p>Margaret, a 68-year-old retired teacher, was referred to the memory clinic by her primary care physician after expressing concerns about increasing forgetfulness over the past year. She reports occasional difficulty remembering names and sometimes misplacing items, though her daily functioning remains intact. Her husband confirms subtle changes but notes she continues to manage household finances and medications independently. Neuropsychological testing revealed performance within normal limits for age, and MRI showed only mild age-related changes. Given her persistent worry about Alzheimer's disease due to a family history (mother developed dementia in her 80s), plasma biomarker testing was performed to provide objective risk assessment.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Plasma Ratio Test Result</h4>
+                        <div class="test-value negative-result">0.00285</div>
+                        <div class="test-interpretation negative-result">
+                            Negative Result (≤0.00370) - Very low likelihood of amyloid pathology
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>Risk Assessment</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Annual Risk</div>
+                                <div class="risk-percentage negative-result">0.06%</div>
+                                <div class="risk-comparison">vs 2.0% baseline</div>
+                            </div>
+                            <div class="risk-item">
+                                <div class="risk-label">10-Year Risk</div>
+                                <div class="risk-percentage negative-result">0.6%</div>
+                                <div class="risk-comparison">vs 20% baseline</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Interpretation</h4>
+                        <p>This 68-year-old woman with subjective cognitive decline has an extremely low risk of developing Alzheimer's disease. The negative biomarker test reduces her risk by 97% compared to age-matched peers.</p>
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h5>Clinical Recommendations</h5>
+                        <p>Investigate alternative causes of cognitive symptoms. Consider mood disorders, medication effects, or other medical conditions. Routine cognitive monitoring with reassurance about low Alzheimer's risk.</p>
+                    </div>
+                </div>
+
+                <!-- Case 2: Indeterminate Risk -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">2</div>
+                        <div>
+                            <div class="case-title">Mild Cognitive Impairment</div>
+                            <div class="case-subtitle">Indeterminate Risk Scenario</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>Patient Demographics</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">74 years</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Male</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cognitive Status</div>
+                                <div class="info-value">MCI</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">APOE Status</div>
+                                <div class="info-value">E3/E4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Vignette</h4>
+                        <p>Robert, a 74-year-old retired engineer, was brought to the clinic by his daughter who noticed he had been struggling with word-finding and occasionally repeating questions during family gatherings. Comprehensive neuropsychological evaluation confirmed mild cognitive impairment, particularly affecting episodic memory and executive function. His Montreal Cognitive Assessment score was 24/30, representing a decline from his estimated premorbid high-average cognitive abilities. APOE genotyping revealed E3/E4 heterozygosity, placing him at increased genetic risk. Robert remains independent in most activities of daily living but requires assistance with complex financial tasks. The family is seeking guidance about prognosis and whether to proceed with amyloid PET imaging, making plasma biomarker testing an attractive intermediate step for risk stratification.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Plasma Ratio Test Result</h4>
+                        <div class="test-value indeterminate-result">0.00555</div>
+                        <div class="test-interpretation indeterminate-result">
+                            Indeterminate Result (0.00371-0.00737) - Uncertain amyloid pathology status
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>Risk Assessment</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Annual Risk</div>
+                                <div class="risk-percentage indeterminate-result">11.5%</div>
+                                <div class="risk-comparison">vs 4.0% baseline</div>
+                            </div>
+                            <div class="risk-item">
+                                <div class="risk-label">10-Year Risk</div>
+                                <div class="risk-percentage indeterminate-result">69.2%</div>
+                                <div class="risk-comparison">vs 6.0% baseline</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Interpretation</h4>
+                        <p>This 74-year-old man with MCI and APOE4 carrier status has intermediate risk. The indeterminate biomarker result creates diagnostic uncertainty requiring additional evaluation.</p>
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h5>Clinical Recommendations</h5>
+                        <p>Consider additional testing (amyloid PET, tau PET, or repeat plasma testing). Enhanced monitoring with 6-month cognitive assessments. Discuss lifestyle interventions and potential clinical trial participation.</p>
+                    </div>
+                </div>
+
+                <!-- Case 3: High Risk Young -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">3</div>
+                        <div>
+                            <div class="case-title">Early-Onset Concerns</div>
+                            <div class="case-subtitle">High Risk Younger Patient</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>Patient Demographics</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">62 years</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Male</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cognitive Status</div>
+                                <div class="info-value">MCI</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">APOE Status</div>
+                                <div class="info-value">E4/E4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Vignette</h4>
+                        <p>David, a 62-year-old university professor, self-referred to the memory clinic after noticing increasing difficulty with lecture preparation and remembering student names over the past 18 months. His wife corroborates progressive memory decline and notes he has become more withdrawn from social activities. Neuropsychological testing revealed significant deficits in episodic memory, working memory, and processing speed, consistent with amnestic MCI. Brain MRI showed mild hippocampal atrophy disproportionate for age. APOE genotyping revealed E4/E4 homozygosity, conferring very high genetic risk for Alzheimer's disease. Given his relatively young age, strong family history (father diagnosed with early-onset AD at age 58), and high genetic risk, there is substantial concern for early-onset Alzheimer's disease. Plasma biomarker testing was ordered to assess amyloid pathology and guide urgent treatment decisions.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Plasma Ratio Test Result</h4>
+                        <div class="test-value positive-result">0.01245</div>
+                        <div class="test-interpretation positive-result">
+                            Positive Result (≥0.00738) - High likelihood of amyloid pathology
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>Risk Assessment</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Annual Risk</div>
+                                <div class="risk-percentage positive-result">32.0%</div>
+                                <div class="risk-comparison">vs 1.0% baseline</div>
+                            </div>
+                            <div class="risk-item">
+                                <div class="risk-label">10-Year Risk</div>
+                                <div class="risk-percentage positive-result">97.8%</div>
+                                <div class="risk-comparison">vs 1.5% baseline</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Interpretation</h4>
+                        <p>This 62-year-old man with MCI, APOE4 homozygosity, and positive biomarkers has very high risk despite younger age. The combination of genetic and biomarker factors indicates likely early-onset Alzheimer's disease.</p>
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h5>Clinical Recommendations</h5>
+                        <p>Urgent referral to specialized memory center for comprehensive evaluation. Consider amyloid-targeting therapy eligibility. Initiate care planning discussions and family genetic counseling. Monitor closely for progression.</p>
+                    </div>
+                </div>
+
+                <!-- Case 4: High Risk Elderly -->
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-number">4</div>
+                        <div>
+                            <div class="case-title">Advanced Age with Dementia</div>
+                            <div class="case-subtitle">Very High Risk Scenario</div>
+                        </div>
+                    </div>
+
+                    <div class="patient-info">
+                        <h4>Patient Demographics</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Age</div>
+                                <div class="info-value">82 years</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sex</div>
+                                <div class="info-value">Female</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cognitive Status</div>
+                                <div class="info-value">Dementia</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">APOE Status</div>
+                                <div class="info-value">E3/E4</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Vignette</h4>
+                        <p>Eleanor, an 82-year-old former librarian, was brought to the clinic by her son due to progressive cognitive decline over three years. She initially presented with memory complaints and word-finding difficulties, which have progressed to significant impairment in activities of daily living. She now requires assistance with medication management, cooking, and financial tasks, and occasionally becomes confused about time and place. Her Mini-Mental State Exam score is 18/30, and she exhibits clear deficits across multiple cognitive domains including memory, language, and executive function. Brain imaging shows moderate cortical atrophy with hippocampal volume loss consistent with neurodegenerative disease. While the clinical presentation strongly suggests Alzheimer's disease, plasma biomarker testing was performed to confirm amyloid pathology and exclude other dementia subtypes, particularly given the family's questions about treatment options and prognosis.</p>
+                    </div>
+
+                    <div class="test-result">
+                        <h4>Plasma Ratio Test Result</h4>
+                        <div class="test-value positive-result">0.02156</div>
+                        <div class="test-interpretation positive-result">
+                            Positive Result (≥0.00738) - High likelihood of amyloid pathology
+                        </div>
+                    </div>
+
+                    <div class="risk-results">
+                        <h4>Risk Assessment</h4>
+                        <div class="risk-grid">
+                            <div class="risk-item">
+                                <div class="risk-label">Annual Risk</div>
+                                <div class="risk-percentage positive-result">99.9%</div>
+                                <div class="risk-comparison">vs 16.0% baseline</div>
+                            </div>
+                            <div class="risk-item">
+                                <div class="risk-label">10-Year Risk</div>
+                                <div class="risk-percentage positive-result">100%</div>
+                                <div class="risk-comparison">vs 24% baseline</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clinical-interpretation">
+                        <h4>Clinical Interpretation</h4>
+                        <p>This 82-year-old woman with established dementia and positive biomarkers has virtually certain Alzheimer's disease pathology. The test confirms the clinical diagnosis and supports appropriate treatment planning.</p>
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h5>Clinical Recommendations</h5>
+                        <p>Confirm Alzheimer's disease diagnosis. Initiate appropriate symptomatic treatments (cholinesterase inhibitors, memantine). Focus on care planning, safety measures, and caregiver support. Consider palliative care consultation as appropriate.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="results.html" class="back-link">← Back to Results</a>
+            <a href="index.html" class="back-link">← Back to Risk Calculator</a>
+        </div>
+    </div>
+</body>
+</html>
