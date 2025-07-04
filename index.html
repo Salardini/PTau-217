@@ -44,7 +44,7 @@
         }
 
         .modal {
-            display: block; /* Display by default */
+            display: none; /* Hidden by default */
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -449,6 +449,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const welcomeModal = document.getElementById('welcomeModal');
             const closeWelcomeBtn = document.getElementById('closeWelcome');
+
+            // Show modal only on first visit per session
+            if (sessionStorage.getItem('welcomeShown') !== 'true') {
+                welcomeModal.style.display = 'block';
+                sessionStorage.setItem('welcomeShown', 'true');
+            }
 
             if (welcomeModal && closeWelcomeBtn) {
                 closeWelcomeBtn.onclick = function() {
