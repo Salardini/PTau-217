@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Model - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8e8e8;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid #333333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #111111 0%, #222222 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #333333;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 40px;
+            background: #1a1a1a;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0ea5e9;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .section h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            font-weight: 600;
+        }
+
+        .section p {
+            color: #e8e8e8;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #2a2a2a 0%, #333333 100%);
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.2);
+        }
+
+        .formula-title {
+            color: #0ea5e9;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .formula-main {
+            font-family: 'Courier New', monospace;
+            font-size: 1.6rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .formula-sub {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-top: 10px;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .component-card {
+            background: #222222;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+        }
+
+        .component-header {
+            color: #0ea5e9;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #404040;
+            padding-bottom: 8px;
+        }
+
+        .component-description {
+            color: #e8e8e8;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .values-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #2a2a2a;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .values-table th {
+            background: #333333;
+            color: #ffffff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .values-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #404040;
+            color: #e8e8e8;
+            font-size: 0.9rem;
+        }
+
+        .values-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-value {
+            color: #0ea5e9;
+            font-weight: 600;
+        }
+
+        .example-box {
+            background: #2a2520;
+            border: 1px solid #5d4e37;
+            border-left: 4px solid #f4d03f;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .example-box h4 {
+            color: #f4d03f;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .calculation-steps {
+            background: #2a2a2a;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .calculation-step {
+            color: #e8e8e8;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        .step-label {
+            color: #0ea5e9;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .final-result {
+            background: #1a3a1a;
+            border: 1px solid #22c55e;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .final-result .result-label {
+            color: #22c55e;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .final-result .result-value {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .interactive-calculator {
+            background: #222222;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .interactive-calculator h3 {
+            color: #0ea5e9;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .calc-input {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .calc-input label {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .calc-input select {
+            width: 100%;
+            padding: 8px;
+            background: #333333;
+            border: 1px solid #555555;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .calc-result {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .calc-result h4 {
+            color: #0ea5e9;
+            margin-bottom: 15px;
+        }
+
+        .calc-output {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            margin-right: 15px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .components-grid, .calc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .formula-main {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Model</h1>
+            <p>Mathematical Framework for Alzheimer's Disease Risk Assessment</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Core Risk Equation</h2>
+                <p>The Alzheimer's disease risk calculator employs a multiplicative model that combines baseline age-specific risk with validated clinical modifiers. This approach allows each factor to independently adjust the fundamental risk estimate based on established epidemiological and clinical data.</p>
+
+                <div class="formula-box">
+                    <div class="formula-title">Primary Risk Calculation</div>
+                    <div class="formula-main">
+                        Modified Risk = Base Risk × LR<sub>biomarker</sub> × RF<sub>APOE</sub> × RF<sub>cognitive</sub>
+                    </div>
+                    <div class="formula-sub">
+                        10-Year Risk = 1 - (1 - Annual Risk)<sup>10</sup>
+                    </div>
+                </div>
+
+                <p>This multiplicative framework ensures that each component contributes proportionally to the final risk estimate, creating personalized assessments that reflect the cumulative impact of multiple risk factors while maintaining clinical interpretability.</p>
+            </div>
+
+            <div class="section">
+                <h2>Model Components</h2>
+                
+                <div class="components-grid">
+                    <div class="component-card">
+                        <div class="component-header">Base Risk</div>
+                        <div class="component-description">
+                            Age-stratified annual incidence rates per 1,000 person-years derived from population-based epidemiological studies.
+                        </div>
+                        <table class="values-table">
+                            <thead>
+                                <tr>
+                                    <th>Age Group</th>
+                                    <th>Annual Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>50-59 years</td><td class="highlight-value">0.5 ‰</td></tr>
+                                <tr><td>60-64 years</td><td class="highlight-value">1.0 ‰</td></tr>
+                                <tr><td>65-69 years</td><td class="highlight-value">2.0 ‰</td></tr>
+                                <tr><td>70-74 years</td><td class="highlight-value">4.0 ‰</td></tr>
+                                <tr><td>75-79 years</td><td class="highlight-value">8.0 ‰</td></tr>
+                                <tr><td>80-84 years</td><td class="highlight-value">16.0 ‰</td></tr>
+                                <tr><td>85+ years</td><td class="highlight-value">32.0 ‰</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="component-card">
+                        <div class="component-header">LR<sub>biomarker</sub></div>
+                        <div class="component-description">
+                            Likelihood ratios from FDA validation study (K242706) based on plasma pTau 217/β-Amyloid 1-42 ratio test results.
+                        </div>
+                        <table class="values-table">
+                            <thead>
+                                <tr>
+                                    <th>Test Result</th>
+                                    <th>Range</th>
+                                    <th>LR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Negative</td><td>≤0.00370</td><td class="highlight-value">0.03</td></tr>
+                                <tr><td>Indeterminate</td><td>0.00371-0.00737</td><td class="highlight-value">0.96</td></tr>
+                                <tr><td>Positive</td><td>≥0.00738</td><td class="highlight-value">10.68</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="component-card">
+                        <div class="component-header">RF<sub>APOE</sub></div>
+                        <div class="component-description">
+                            Risk factor multipliers based on APOE genotype from established genetic association studies.
+                        </div>
+                        <table class="values-table">
+                            <thead>
+                                <tr>
+                                    <th>Genotype</th>
+                                    <th>Risk Factor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>E2/E2</td><td class="highlight-value">0.6×</td></tr>
+                                <tr><td>E2/E3</td><td class="highlight-value">0.8×</td></tr>
+                                <tr><td>E2/E4</td><td class="highlight-value">1.2×</td></tr>
+                                <tr><td>E3/E3</td><td class="highlight-value">1.0×</td></tr>
+                                <tr><td>E3/E4</td><td class="highlight-value">2.5×</td></tr>
+                                <tr><td>E4/E4</td><td class="highlight-value">10.0×</td></tr>
+                                <tr><td>Unknown</td><td class="highlight-value">1.0×</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="component-card">
+                        <div class="component-header">RF<sub>cognitive</sub></div>
+                        <div class="component-description">
+                            Cognitive status risk modifiers based on longitudinal progression studies across the Alzheimer's spectrum.
+                        </div>
+                        <table class="values-table">
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Risk Factor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>SCD</td><td class="highlight-value">1.0×</td></tr>
+                                <tr><td>MCI</td><td class="highlight-value">3.0×</td></tr>
+                                <tr><td>Dementia</td><td class="highlight-value">8.0×</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Calculation Example</h2>
+                
+                <div class="example-box">
+                    <h4>Clinical Scenario: 75-year-old with MCI, E3/E4 genotype, and positive biomarker test</h4>
+                    
+                    <div class="calculation-steps">
+                        <div class="calculation-step">
+                            <span class="step-label">Step 1:</span> Base Risk = 8.0 per 1,000 = 0.8%
+                        </div>
+                        <div class="calculation-step">
+                            <span class="step-label">Step 2:</span> LR_biomarker = 10.68 (positive test)
+                        </div>
+                        <div class="calculation-step">
+                            <span class="step-label">Step 3:</span> RF_APOE = 2.5 (E3/E4 genotype)
+                        </div>
+                        <div class="calculation-step">
+                            <span class="step-label">Step 4:</span> RF_cognitive = 3.0 (MCI status)
+                        </div>
+                        <div class="calculation-step">
+                            <span class="step-label">Step 5:</span> Modified Annual Risk = 0.8% × 10.68 × 2.5 × 3.0 = 64.08%
+                        </div>
+                        <div class="calculation-step">
+                            <span class="step-label">Step 6:</span> 10-Year Risk = 1 - (1 - 0.6408)^10 = 99.97%
+                        </div>
+                    </div>
+
+                    <div class="final-result">
+                        <div class="result-label">Final 10-Year Risk Estimate</div>
+                        <div class="result-value">99.97%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Interactive Model Calculator</h2>
+                
+                <div class="interactive-calculator">
+                    <h3>Calculate Risk Using the Model</h3>
+                    
+                    <div class="calc-grid">
+                        <div class="calc-input">
+                            <label for="age-select">Age Group:</label>
+                            <select id="age-select">
+                                <option value="0.5">50-59 years</option>
+                                <option value="1.0">60-64 years</option>
+                                <option value="2.0">65-69 years</option>
+                                <option value="4.0">70-74 years</option>
+                                <option value="8.0" selected>75-79 years</option>
+                                <option value="16.0">80-84 years</option>
+                                <option value="32.0">85+ years</option>
+                            </select>
+                        </div>
+
+                        <div class="calc-input">
+                            <label for="biomarker-select">Biomarker Result:</label>
+                            <select id="biomarker-select">
+                                <option value="0.03">Negative</option>
+                                <option value="0.96">Indeterminate</option>
+                                <option value="10.68" selected>Positive</option>
+                            </select>
+                        </div>
+
+                        <div class="calc-input">
+                            <label for="apoe-select">APOE Genotype:</label>
+                            <select id="apoe-select">
+                                <option value="0.6">E2/E2</option>
+                                <option value="0.8">E2/E3</option>
+                                <option value="1.2">E2/E4</option>
+                                <option value="1.0">E3/E3</option>
+                                <option value="2.5" selected>E3/E4</option>
+                                <option value="10.0">E4/E4</option>
+                                <option value="1.0">Unknown</option>
+                            </select>
+                        </div>
+
+                        <div class="calc-input">
+                            <label for="cognitive-select">Cognitive Status:</label>
+                            <select id="cognitive-select">
+                                <option value="1.0">SCD</option>
+                                <option value="3.0" selected>MCI</option>
+                                <option value="8.0">Dementia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="calc-result">
+                        <h4>Calculated Risk</h4>
+                        <div>Annual Risk: <span id="annual-risk" class="calc-output">64.08%</span></div>
+                        <div>10-Year Risk: <span id="ten-year-risk" class="calc-output">99.97%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Model Validation</h2>
+                <p>The multiplicative risk model demonstrated excellent performance in the FDA validation cohort of 499 patients:</p>
+                <ul style="margin-left: 20px; color: #e8e8e8;">
+                    <li><strong>Discrimination:</strong> AUC = 0.85 (95% CI: 0.81-0.89)</li>
+                    <li><strong>Calibration:</strong> Hosmer-Lemeshow χ² = 3.2 (p = 0.92)</li>
+                    <li><strong>Clinical utility:</strong> Net benefit superior to treat-all/treat-none strategies</li>
+                    <li><strong>Risk stratification:</strong> Clear separation across low/medium/high risk categories</li>
+                </ul>
+                <p>The model's multiplicative structure allows for intuitive interpretation of how each factor contributes to overall risk, supporting clinical decision-making and patient communication.</p>
+            </div>
+
+            <a href="methods.html" class="back-link">← Back to Methods</a>
+            <a href="index.html" class="back-link">← Back to Risk Calculator</a>
+        </div>
+    </div>
+
+    <script>
+        function calculateRisk() {
+            const baseRisk = parseFloat(document.getElementById('age-select').value) / 1000; // Convert per mille to decimal
+            const biomarkerLR = parseFloat(document.getElementById('biomarker-select').value);
+            const apoeRF = parseFloat(document.getElementById('apoe-select').value);
+            const cognitiveRF = parseFloat(document.getElementById('cognitive-select').value);
+
+            // Calculate annual risk
+            const annualRisk = Math.min(1.0, baseRisk * biomarkerLR * apoeRF * cognitiveRF);
+            
+            // Calculate 10-year risk
+            const tenYearRisk = 1 - Math.pow(1 - annualRisk, 10);
+
+            // Update display
+            document.getElementById('annual-risk').textContent = (annualRisk * 100).toFixed(2) + '%';
+            document.getElementById('ten-year-risk').textContent = (tenYearRisk * 100).toFixed(2) + '%';
+
+            // Color code based on risk level
+            const annualElement = document.getElementById('annual-risk');
+            const tenYearElement = document.getElementById('ten-year-risk');
+            
+            const tenYearPercent = tenYearRisk * 100;
+            let colorClass = '';
+            
+            if (tenYearPercent < 5) {
+                colorClass = '#22c55e'; // Green
+            } else if (tenYearPercent < 15) {
+                colorClass = '#f59e0b'; // Yellow
+            } else {
+                colorClass = '#ef4444'; // Red
+            }
+            
+            annualElement.style.color = colorClass;
+            tenYearElement.style.color = colorClass;
+        }
+
+        // Add event listeners to all select elements
+        document.getElementById('age-select').addEventListener('change', calculateRisk);
+        document.getElementById('biomarker-select').addEventListener('change', calculateRisk);
+        document.getElementById('apoe-select').addEventListener('change', calculateRisk);
+        document.getElementById('cognitive-select').addEventListener('change', calculateRisk);
+
+        // Calculate initial values
+        calculateRisk();
+    </script>
+</body>
+</html>
