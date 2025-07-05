@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAMA Viewpoint - Alzheimer's Disease Risk Calculator</title>
+    <style>
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            margin-bottom: 20px;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .navbar a.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 20px;
+            color: #e8e8e8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid #333333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #111111 0%, #222222 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 2px solid #333333;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .content {
+            padding: 40px;
+            background: #1a1a1a;
+        }
+
+        .content h2 {
+            color: #ffffff;
+            margin-bottom: 24px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #333333;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .content h3 {
+            color: #ffffff;
+            margin-bottom: 24px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #333333;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .content p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .content a {
+            color: #0ea5e9;
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .author-info {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #222;
+            border-radius: 8px;
+        }
+        
+        .visualization {
+            width: 100%;
+            height: 400px;
+            background-color: #222;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="background.html">Background</a>
+        <a href="methods.html">Methods</a>
+        <a href="the_model_page.html">The Model</a>
+        <a href="cases.html">Cases</a>
+        <a href="viewpoint.html" class="active">Viewpoint</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Translating Promise into Practice: A Clinician’s Perspective on Alzheimer's Blood Biomarkers</h1>
+        </div>
+
+        <div class="content">
+            <div class="author-info">
+                <p><strong>Author:</strong> Arash Salardini, MD</p>
+                <p><strong>Affiliations:</strong><br>
+                1. Glenn Biggs Institute for Alzheimer's & Neurodegenerative Diseases, University of Texas Health Science Center at San Antonio, San Antonio Texas, USA<br>
+                2. Joe R. and Teresa Lozano Long School of Medicine, The University of Texas Health Science Center at San Antonio, San Antonio, TX 78229, USA<br>
+                3. Department of Neurology, University of Texas Health Science Center at San Antonio, San Antonio Texas, USA</p>
+            </div>
+
+            <p>The recent FDA approval of plasma-based biomarkers for Alzheimer’s disease has been met with well-deserved enthusiasm, as it promises a simpler, less invasive, and less expensive alternative to amyloid PET scans and lumbar punctures. Yet publicity aside, misunderstandings regarding what this test can and cannot do seem to have spread in the provider and patient communities alike. As neurologists and geriatricians see a rising tide of patient referrals driven by "positive" blood tests ordered in non-specialist settings, we must move from enthusiasm to caution.</p>
+
+            <p>In my own community of Southern Texas, physicians who diagnose and treat patients with cognitive disorders are very enthused about the high negative and positive predictive values (NPV and PPV) reported in the publicity. In data submitted by Fujirebio Diagnostics to the FDA, Lumipulse G pTau217/β-Amyloid 1-42 Plasma Ratio demonstrated sensitivities and specificities exceeding 90%, yielding impressive positive predictive values (PPV) in this cohort. The critical context, however, is that this and other similar studies have been conducted in highly selected populations, where the pre-test probability (prevalence) of amyloid pathology is 50–60%. These are not the populations in which we are now beginning to use the test.</p>
+
+            <h3>The Impact of Prevalence on Predictive Value</h3>
+            <p>The statistical reality shifts dramatically when the same test is applied in a community setting for patients with vague cognitive complaints, or used for opportunistic screening of asymptomatic individuals with family history of dementia. For example, in a population where the prevalence of underlying amyloid pathology is only 5%, the PPV of a test with 98% sensitivity and 90% specificity plummets to approximately 36%. This means that nearly two-thirds of positive results would be false positives. Such a result has profound, tangible consequences: patients without Alzheimer’s disease may face unnecessary anxiety, undergo costly and potentially invasive confirmatory testing, and even seek treatments they do not need, all while the true cause of their symptoms remains unexplored. This is not a flaw in the biomarker itself, but a fundamental principle of Bayesian statistics that is too often overlooked in the rush to adopt new technologies.</p>
+            
+            <canvas id="ppvChart" class="visualization"></canvas>
+
+            <p>Conversely, the test’s negative predictive value (NPV) remains exceptionally high (over 99%) across diverse populations. This makes plasma biomarkers an outstanding tool for ruling out Alzheimer's disease. A negative result provides strong evidence to redirect the diagnostic evaluation toward other causes of cognitive impairment, such as vascular dementia, frontotemporal degeneration, or psychiatric conditions, offering clarity and reassurance to patients and clinicians alike.</p>
+
+            <h3>What Do These Tests Measure?</h3>
+            <p>A second critical nuance lies in what these tests measure. Plasma biomarkers are validated against amyloid PET and cerebrospinal fluid (CSF) markers, not against neuropathology, let alone the clinical syndrome of dementia or long-term cognitive outcomes. It is well-established that a significant portion of older adults—perhaps up to 30% of cognitively unimpaired individuals in their 70s—have amyloid pathology. Many of these individuals will never progress to develop clinical dementia. Amyloid positivity is a risk factor, not a diagnosis.</p>
+
+            <canvas id="amyloidPrevalenceChart" class="visualization"></canvas>
+
+            <p>This distinction is paramount in the era of anti-amyloid therapies. These treatments, while representing a genuine scientific advance, offer modest cognitive benefits and carry nontrivial risks, including amyloid-related imaging abnormalities (ARIA). Crucially, no clinical trials have demonstrated any benefit for treating asymptomatic, biomarker-positive individuals. Initiating such therapies based on a blood test alone, without a comprehensive clinical diagnosis and careful consideration of the risk-benefit profile, is not supported by evidence and falls outside the standard of care.</p>
+
+            <h3>Recommendations for Clinical Practice</h3>
+            <p>As physicians, we are already familiar with tests which inform our patients of significant risk of serious future illness mixed with an inability to predict outcomes in a singular individuals. Much of genetic testing and its ambiguities falls in this category. For example, BRCA heterozygosity does not predict breast cancer but informs of an increased risk in the future. For genetic testing we have well established planning and counseling protocols that mitigate potential harm to patients. To benefit from the great potential of these biomarkers while preventing widespread misinterpretation and harm, we may consider the following:</p>
+            <ol>
+                <li><strong>Consider Strict Indications and Contraindications:</strong> Plasma biomarker testing should be reserved for patients aged 55 and older who present with persistent, progressive, and objectively confirmed cognitive decline.</li>
+                <li><strong>Mandate Pre-Test Counseling:</strong> No test should be ordered without a thorough discussion with the patient and their family.</li>
+                <li><strong>Establish a Clear Diagnostic and Treatment Pathway:</strong> A positive plasma biomarker should never be the sole basis for a diagnosis or for initiating anti-amyloid therapy.</li>
+                <li><strong>Leverage the Power of a Negative Result:</strong> A negative result has high clinical utility.</li>
+                <li><strong>Delineate Roles for Primary Care and Specialty Care:</strong> PCPs can use these tests as a powerful triage tool.</li>
+            </ol>
+
+            <p>The development of blood-based biomarkers is a landmark scientific achievement that will reshape the diagnostic landscape for Alzheimer's disease. However, like all powerful medical tools, their value is determined not by their existence, but by how and where they are used. The immediate task for professional societies, health systems, and clinicians is to build a scaffolding of education and clear guidelines around them. By embracing a strategy of thoughtful, evidence-based implementation—one that prioritizes patient selection, pre-test counseling, and confirmatory testing—we can ensure these tests improve patient care, reduce uncertainty, and advance our fight against dementia without causing unintended confusion or harm. Our collective responsibility is to interpret these tests in context, not in isolation.</p>
+        </div>
+    </div>
+
+    <script>
+        const ppvCtx = document.getElementById('ppvChart').getContext('2d');
+        const ppvChart = new Chart(ppvCtx, {
+            type: 'bar',
+            data: {
+                labels: ['High-Prevalence (60%)', 'Low-Prevalence (5%)'],
+                datasets: [{
+                    label: 'Positive Predictive Value (PPV)',
+                    data: [90, 36],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'PPV (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Impact of Disease Prevalence on PPV'
+                    }
+                }
+            }
+        });
+
+        const amyloidCtx = document.getElementById('amyloidPrevalenceChart').getContext('2d');
+        const amyloidChart = new Chart(amyloidCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Cognitively Unimpaired with Amyloid Pathology', 'Cognitively Unimpaired without Amyloid Pathology'],
+                datasets: [{
+                    label: 'Amyloid Pathology in Cognitively Unimpaired 70-year-olds',
+                    data: [30, 70],
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Amyloid Pathology in Cognitively Unimpaired 70-year-olds'
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
