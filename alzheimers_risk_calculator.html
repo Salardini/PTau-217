@@ -1,4 +1,24 @@
-<!DOCTYPE html>
+        .welcome-section {
+            background: #2a2520;
+            border: 1px solid #5d4e37;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        .welcome-section p {
+            color: #e8e8e8;
+            line-height: 1.7;
+            font-size: 1rem;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +49,6 @@
             background-color: #0ea5e9;
             color: white;
         }
-
         * {
             margin: 0;
             padding: 0;
@@ -41,66 +60,6 @@
             background: #000000;
             min-height: 100vh;
             padding: 20px;
-        }
-
-        .modal {
-            display: flex;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            position: relative;
-            background: #2a2a2a;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 700px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            border: 1px solid #444;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            color: #aaaaaa;
-            font-size: 32px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-btn:hover,
-        .close-btn:focus {
-            color: #ffffff;
-        }
-
-        .welcome-section {
-            background: transparent;
-            border: none;
-            padding: 0;
-            margin-bottom: 0;
-        }
-
-        .welcome-section h2 {
-            color: #ffffff;
-            margin-bottom: 12px;
-            font-weight: 600;
-            font-size: 1.4rem;
-        }
-
-        .welcome-section p {
-            color: #e8e8e8;
-            line-height: 1.7;
-            font-size: 1rem;
         }
 
         .container {
@@ -342,31 +301,29 @@
     </style>
 </head>
 <body>
-    <div id="welcomeModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" id="closeWelcome">&times;</span>
-            <div class="welcome-section">
-                <h2>Welcome to the Alzheimer's Disease Risk Calculator</h2>
-                <p>This evidence-based tool provides personalized Alzheimer's disease risk estimates using plasma pTau 217/β-Amyloid 1-42 ratio biomarker testing combined with demographic and genetic factors. Developed from FDA-validated clinical data (K242706) encompassing 499 patients across the cognitive spectrum, the calculator integrates validated likelihood ratios with established epidemiological data to support clinical decision-making in specialized care settings. The risk assessment considers age, cognitive status, APOE genotype, and biomarker results to provide both annual and 10-year risk estimates, enabling healthcare providers to make informed decisions about diagnostic workup, monitoring strategies, and intervention planning.</p>
-            </div>
-        </div>
-    </div>
-
     <div class="navbar">
-        <a href="index.html" class="active">Home</a>
+        <a href="index.html">Home</a>
         <a href="background.html">Background</a>
         <a href="methods.html">Methods</a>
         <a href="the_model_page.html">The Model</a>
         <a href="cases.html">Cases</a>
     </div>
+
     <div class="container">
         <div class="header">
             <h1>Alzheimer's Disease Risk Calculator</h1>
             <p>Based on pTau 217/β-Amyloid 1-42 Plasma Ratio Test</p>
-            
+            <a href="background.html" target="_blank" class="background-link">
+                View Background Info & Data Visualizations
+            </a>
         </div>
 
         <div class="content">
+            <div class="welcome-section">
+                <h2>Welcome to the Alzheimer's Disease Risk Calculator</h2>
+                <p>This evidence-based tool provides personalized Alzheimer's disease risk estimates using plasma pTau 217/β-Amyloid 1-42 ratio biomarker testing combined with demographic and genetic factors. Developed from FDA-validated clinical data (K242706) encompassing 499 patients across the cognitive spectrum, the calculator integrates validated likelihood ratios with established epidemiological data to support clinical decision-making in specialized care settings. The risk assessment considers age, cognitive status, APOE genotype, and biomarker results to provide both annual and 10-year risk estimates, enabling healthcare providers to make informed decisions about diagnostic workup, monitoring strategies, and intervention planning.</p>
+            </div>
+
             <div class="warning">
                 <h3>Important Medical Disclaimer</h3>
                 <p>This calculator is for educational purposes only and should not replace professional medical advice. The plasma ratio test is intended for use in specialized care settings for patients aged 50+ with cognitive decline symptoms. Always consult with a healthcare provider for proper diagnosis and interpretation.</p>
@@ -445,158 +402,221 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const welcomeModal = document.getElementById('welcomeModal');
-            const closeWelcomeBtn = document.getElementById('closeWelcome');
-
-            // Show modal only on first visit per session
-            if (sessionStorage.getItem('welcomeShown') !== 'true') {
-                welcomeModal.classList.remove('hidden');
-                sessionStorage.setItem('welcomeShown', 'true');
+        // Base risk data from epidemiological studies
+        const baseRiskData = {
+            // Annual incidence rates per 1000 person-years by age group
+            annual: {
+                '50-59': 0.5,
+                '60-64': 1.0,
+                '65-69': 2.0,
+                '70-74': 4.0,
+                '75-79': 8.0,
+                '80-84': 16.0,
+                '85+': 32.0
+            },
+            // 10-year cumulative risk by age
+            cumulative10: {
+                '50-59': 0.5,
+                '60-64': 1.5,
+                '65-69': 3.0,
+                '70-74': 6.0,
+                '75-79': 12.0,
+                '80-84': 24.0,
+                '85+': 40.0
             }
+        };
 
-            if (welcomeModal && closeWelcomeBtn) {
-                closeWelcomeBtn.onclick = function() {
-                    welcomeModal.classList.add('hidden');
-                }
-                // Optional: close if clicking outside of the modal content
-                window.onclick = function(event) {
-                    if (event.target == welcomeModal) {
-                        welcomeModal.classList.add('hidden');
-                    }
-                }
+        // Risk modifiers based on test results (from FDA document)
+        const testModifiers = {
+            'negative': {
+                likelihood: 0.03, // Likelihood ratio 0.03
+                description: 'Very low likelihood of amyloid pathology'
+            },
+            'indeterminate': {
+                likelihood: 0.96, // Likelihood ratio 0.96  
+                description: 'Uncertain amyloid pathology status'
+            },
+            'positive': {
+                likelihood: 10.68, // Likelihood ratio 10.68
+                description: 'High likelihood of amyloid pathology'
             }
+        };
 
-            const baseRiskData = {
-                annual: {
-                    '50-59': 0.5, '60-64': 1.0, '65-69': 2.0, '70-74': 4.0, '75-79': 8.0, '80-84': 16.0, '85+': 32.0
+        // APOE risk modifiers
+        const apoeModifiers = {
+            'e2/e2': 0.6,
+            'e2/e3': 0.8,
+            'e2/e4': 1.2,
+            'e3/e3': 1.0,
+            'e3/e4': 2.5,
+            'e4/e4': 10.0,
+            'unknown': 1.0
+        };
+
+        // Cognitive status modifiers
+        const cognitiveModifiers = {
+            'scd': 1.0,
+            'mci': 3.0,
+            'dementia': 8.0
+        };
+
+        function getAgeGroup(age) {
+            if (age < 60) return '50-59';
+            if (age < 65) return '60-64';
+            if (age < 70) return '65-69';
+            if (age < 75) return '70-74';
+            if (age < 80) return '75-79';
+            if (age < 85) return '80-84';
+            return '85+';
+        }
+
+        function calculateRisk(formData) {
+            const ageGroup = getAgeGroup(formData.age);
+            const baseAnnual = baseRiskData.annual[ageGroup];
+            const base10Year = baseRiskData.cumulative10[ageGroup];
+
+            // Apply modifiers
+            const testModifier = testModifiers[formData.testResult];
+            const apoeModifier = apoeModifiers[formData.apoeStatus];
+            const cognitiveModifier = cognitiveModifiers[formData.cognitiveStatus];
+
+            // Calculate modified risks
+            const modifiedAnnual = Math.min(100, baseAnnual * testModifier.likelihood * apoeModifier * cognitiveModifier);
+            const modified10Year = Math.min(100, base10Year * testModifier.likelihood * apoeModifier * cognitiveModifier);
+
+            return {
+                base: {
+                    annual: baseAnnual,
+                    tenYear: base10Year
                 },
-                cumulative10: {
-                    '50-59': 0.5, '60-64': 1.5, '65-69': 3.0, '70-74': 6.0, '75-79': 12.0, '80-84': 24.0, '85+': 40.0
-                }
+                modified: {
+                    annual: modifiedAnnual,
+                    tenYear: modified10Year
+                },
+                testResult: testModifier,
+                ageGroup: ageGroup
             };
+        }
 
-            const testModifiers = {
-                'negative': { likelihood: 0.03, description: 'Very low likelihood of amyloid pathology' },
-                'indeterminate': { likelihood: 0.96, description: 'Uncertain amyloid pathology status' },
-                'positive': { likelihood: 10.68, description: 'High likelihood of amyloid pathology' }
-            };
+        function getRiskClass(percentage) {
+            if (percentage < 5) return 'low-risk';
+            if (percentage < 15) return 'medium-risk';
+            return 'high-risk';
+        }
 
-            const apoeModifiers = {
-                'e2/e2': 0.6, 'e2/e3': 0.8, 'e2/e4': 1.2, 'e3/e3': 1.0, 'e3/e4': 2.5, 'e4/e4': 10.0, 'unknown': 1.0
-            };
+        function displayResults(riskData, formData) {
+            console.log('Displaying results...'); // Debug log
+            const resultsDiv = document.getElementById('results');
+            const contentDiv = document.getElementById('risk-content');
 
-            const cognitiveModifiers = {
-                'scd': 1.0, 'mci': 3.0, 'dementia': 8.0
-            };
-
-            function getAgeGroup(age) {
-                if (age < 60) return '50-59';
-                if (age < 65) return '60-64';
-                if (age < 70) return '65-69';
-                if (age < 75) return '70-74';
-                if (age < 80) return '75-79';
-                if (age < 85) return '80-84';
-                return '85+';
+            if (!resultsDiv || !contentDiv) {
+                console.error('Results elements not found!');
+                return;
             }
 
-            function calculateRisk(formData) {
-                const ageGroup = getAgeGroup(formData.age);
-                const baseAnnual = baseRiskData.annual[ageGroup];
-                const base10Year = baseRiskData.cumulative10[ageGroup];
-                const testModifier = testModifiers[formData.testResult];
-                const apoeModifier = apoeModifiers[formData.apoeStatus];
-                const cognitiveModifier = cognitiveModifiers[formData.cognitiveStatus];
-                const modifiedAnnual = Math.min(100, baseAnnual * testModifier.likelihood * apoeModifier * cognitiveModifier);
-                const modified10Year = Math.min(100, base10Year * testModifier.likelihood * apoeModifier * cognitiveModifier);
+            const annualClass = getRiskClass(riskData.modified.annual);
+            const tenYearClass = getRiskClass(riskData.modified.tenYear);
 
-                return {
-                    base: { annual: baseAnnual, tenYear: base10Year },
-                    modified: { annual: modifiedAnnual, tenYear: modified10Year },
-                    testResult: testModifier,
-                    ageGroup: ageGroup
-                };
-            }
+            contentDiv.innerHTML = `
+                <div class="risk-card">
+                    <h4>Test Interpretation</h4>
+                    <p><strong>Result:</strong> ${formData.testResult.charAt(0).toUpperCase() + formData.testResult.slice(1)}</p>
+                    <p><strong>Clinical Meaning:</strong> ${riskData.testResult.description}</p>
+                </div>
 
-            function getRiskClass(percentage) {
-                if (percentage < 5) return 'low-risk';
-                if (percentage < 15) return 'medium-risk';
-                return 'high-risk';
-            }
+                <div class="risk-card">
+                    <h4>Annual Risk (Next 12 Months)</h4>
+                    <div class="risk-percentage ${annualClass}">
+                        ${riskData.modified.annual.toFixed(1)}%
+                    </div>
+                    <p>Baseline risk for age ${formData.age}: ${riskData.base.annual.toFixed(1)}%</p>
+                    <p><strong>Risk Change:</strong> ${(riskData.modified.annual / riskData.base.annual).toFixed(1)}× baseline risk</p>
+                </div>
 
-            function displayResults(riskData, formData) {
-                const resultsDiv = document.getElementById('results');
-                const contentDiv = document.getElementById('risk-content');
-                if (!resultsDiv || !contentDiv) return;
+                <div class="risk-card">
+                    <h4>10-Year Risk</h4>
+                    <div class="risk-percentage ${tenYearClass}">
+                        ${riskData.modified.tenYear.toFixed(1)}%
+                    </div>
+                    <p>Baseline risk for age ${formData.age}: ${riskData.base.tenYear.toFixed(1)}%</p>
+                    <p><strong>Risk Change:</strong> ${(riskData.modified.tenYear / riskData.base.tenYear).toFixed(1)}× baseline risk</p>
+                </div>
 
-                const annualClass = getRiskClass(riskData.modified.annual);
-                const tenYearClass = getRiskClass(riskData.modified.tenYear);
+                <div class="risk-card">
+                    <h4>Risk Factors Considered</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8; color: #cccccc;">
+                        <li><strong style="color: #ffffff;">Age Group:</strong> ${riskData.ageGroup}</li>
+                        <li><strong style="color: #ffffff;">Cognitive Status:</strong> ${formData.cognitiveStatus.toUpperCase()}</li>
+                        <li><strong style="color: #ffffff;">APOE Status:</strong> ${formData.apoeStatus}</li>
+                        <li><strong style="color: #ffffff;">Amyloid Test:</strong> ${formData.testResult}</li>
+                    </ul>
+                </div>
 
-                contentDiv.innerHTML = `
-                    <div class="risk-card">
-                        <h4>Test Interpretation</h4>
-                        <p><strong>Result:</strong> ${formData.testResult.charAt(0).toUpperCase() + formData.testResult.slice(1)}</p>
-                        <p><strong>Clinical Meaning:</strong> ${riskData.testResult.description}</p>
-                    </div>
-                    <div class="risk-card">
-                        <h4>Annual Risk (Next 12 Months)</h4>
-                        <div class="risk-percentage ${annualClass}">${riskData.modified.annual.toFixed(1)}%</div>
-                        <p>Baseline risk for age ${formData.age}: ${riskData.base.annual.toFixed(1)}%</p>
-                        <p><strong>Risk Change:</strong> ${(riskData.modified.annual / riskData.base.annual).toFixed(1)}× baseline risk</p>
-                    </div>
-                    <div class="risk-card">
-                        <h4>10-Year Risk</h4>
-                        <div class="risk-percentage ${tenYearClass}">${riskData.modified.tenYear.toFixed(1)}%</div>
-                        <p>Baseline risk for age ${formData.age}: ${riskData.base.tenYear.toFixed(1)}%</p>
-                        <p><strong>Risk Change:</strong> ${(riskData.modified.tenYear / riskData.base.tenYear).toFixed(1)}× baseline risk</p>
-                    </div>
-                    <div class="risk-card">
-                        <h4>Risk Factors Considered</h4>
-                        <ul style="margin-left: 20px; line-height: 1.8; color: #cccccc;">
-                            <li><strong style="color: #ffffff;">Age Group:</strong> ${riskData.ageGroup}</li>
-                            <li><strong style="color: #ffffff;">Cognitive Status:</strong> ${formData.cognitiveStatus.toUpperCase()}</li>
-                            <li><strong style="color: #ffffff;">APOE Status:</strong> ${formData.apoeStatus}</li>
-                            <li><strong style="color: #ffffff;">Amyloid Test:</strong> ${formData.testResult}</li>
-                        </ul>
-                    </div>
-                    <div class="risk-card">
-                        <h4>Clinical Recommendations</h4>
-                        ${getRecommendations(formData.testResult, riskData.modified.tenYear)}
-                    </div>
+                <div class="risk-card">
+                    <h4>Clinical Recommendations</h4>
+                    ${getRecommendations(formData.testResult, riskData.modified.tenYear)}
+                </div>
+            `;
+
+            // Show results section
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.style.display = 'block'; // Force display
+            
+            console.log('Results should now be visible'); // Debug log
+            
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function getRecommendations(testResult, tenYearRisk) {
+            let recommendations = '';
+
+            if (testResult === 'negative') {
+                recommendations = `
+                    <p><strong>Low amyloid likelihood:</strong> Investigate other causes of cognitive symptoms.</p>
+                    <p>Continue routine cognitive monitoring and maintain healthy lifestyle practices.</p>
                 `;
-                resultsDiv.classList.remove('hidden');
-                resultsDiv.style.display = 'block';
-                setTimeout(() => {
-                    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
+            } else if (testResult === 'indeterminate') {
+                recommendations = `
+                    <p><strong>Uncertain result:</strong> Consider additional testing or clinical follow-up.</p>
+                    <p>May benefit from repeat testing or alternative amyloid assessment methods.</p>
+                `;
+            } else {
+                recommendations = `
+                    <p><strong>High amyloid likelihood:</strong> Increased monitoring and potential intervention planning.</p>
+                    <p>Consider referral to specialized memory care clinic for comprehensive evaluation.</p>
+                `;
             }
 
-            function getRecommendations(testResult, tenYearRisk) {
-                let recommendations = '';
-                if (testResult === 'negative') {
-                    recommendations = `<p><strong>Low amyloid likelihood:</strong> Investigate other causes of cognitive symptoms.</p><p>Continue routine cognitive monitoring and maintain healthy lifestyle practices.</p>`;
-                } else if (testResult === 'indeterminate') {
-                    recommendations = `<p><strong>Uncertain result:</strong> Consider additional testing or clinical follow-up.</p><p>May benefit from repeat testing or alternative amyloid assessment methods.</p>`;
-                } else {
-                    recommendations = `<p><strong>High amyloid likelihood:</strong> Increased monitoring and potential intervention planning.</p><p>Consider referral to specialized memory care clinic for comprehensive evaluation.</p>`;
-                }
-                if (tenYearRisk > 15) {
-                    recommendations += `<p><strong>High 10-year risk:</strong> Discuss prevention strategies and care planning with healthcare team.</p>`;
-                }
-                return recommendations;
+            if (tenYearRisk > 15) {
+                recommendations += `<p><strong>High 10-year risk:</strong> Discuss prevention strategies and care planning with healthcare team.</p>`;
             }
 
+            return recommendations;
+        }
+
+        // Add event listener when page loads
+        document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('riskForm');
             const calculateBtn = document.querySelector('.calculate-btn');
             
+            // Debug: Add click handler directly to button
             calculateBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                console.log('Calculate button clicked!'); // Debug log
+                
+                // Get form data
                 const age = document.getElementById('age').value;
                 const sex = document.getElementById('sex').value;
                 const cognitiveStatus = document.getElementById('cognitive-status').value;
                 const apoeStatus = document.getElementById('apoe-status').value;
                 const testResult = document.getElementById('test-result').value;
                 
+                console.log('Form data:', {age, sex, cognitiveStatus, apoeStatus, testResult}); // Debug log
+                
+                // Validate required fields
                 if (!age || !sex || !cognitiveStatus || !testResult) {
                     alert('Please fill in all required fields');
                     return;
@@ -612,6 +632,7 @@
 
                 try {
                     const riskData = calculateRisk(formData);
+                    console.log('Risk data calculated:', riskData); // Debug log
                     displayResults(riskData, formData);
                 } catch (error) {
                     console.error('Error calculating risk:', error);
@@ -619,6 +640,7 @@
                 }
             });
             
+            // Also add form submit handler as backup
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 calculateBtn.click();
